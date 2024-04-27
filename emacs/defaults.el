@@ -39,9 +39,10 @@
 ;; we no longer use linum-mode.
 (add-hook 'prog-mode-hook #'display-line-numbers-mode)
 
-;; Remove the toolbar and scrollsbars because I don't use them anyways.
+;; Remove the toolbar and scrollbars because I don't use them anyways.
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
+(menu-bar-mode -1)
 (setq-default indent-tabs-mode nil)
 
 (set-charset-priority 'unicode)
