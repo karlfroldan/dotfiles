@@ -55,7 +55,10 @@
 
 ;;; Add different binary directories for exec-path
 (defun add-to-exec-path (path)
-  (add-to-list 'exec-path (concat (getenv "HOME") "/" path)))
+  (let ((path-name (concat (getenv "HOME") "/" path)))
+    (when (file-directory-p path-name)
+      (message (concat "Adding \'" path-name "\' to exec-path"))
+      (add-to-list 'exec-path path-name))))
 
 (setq exec-path-list '(".ghcup/bin"
                        ".cabal/bin"
