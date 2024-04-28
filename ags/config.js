@@ -1,8 +1,9 @@
-const hyprland = await Service.import("hyprland")
-const battery = await Service.import("battery")
-const network = await Service.import("network")
+const hyprland = await Service.import('hyprland')
+const battery = await Service.import('battery')
+const network = await Service.import('network')
+import { CalendarPopup } from './calendar_popup.js'
 
-const date = Variable("", {
+const date = Variable('', {
     poll: [1000, 'date "+%H:%M, %b %e, %Y"'],
 })
 
@@ -11,7 +12,7 @@ const Clock = () => {
         child: Widget.Label({
             label: date.bind(),
         }),
-        onClicked: () => print("hello"),
+        onClicked: () => CalendarPopup(),
     })
 }
 
@@ -56,12 +57,12 @@ const BatteryProgress = () => {
 }
 
 const Left = () => {
-    return Widget.Label("Left Widget")
+    return Widget.Label('Left Widget')
 }
 
 const Center = () => {
     return Widget.Box({
-        hpack: "center",
+        hpack: 'center',
         spacing: 64,
         vertical: false,
         children: [
@@ -72,7 +73,7 @@ const Center = () => {
 
 const Right = () => {
     return Widget.Box({
-        hpack: "center",
+        hpack: 'center',
         spacing: 64, 
         homogeneous: false,
         vertical: false,
