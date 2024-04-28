@@ -7,12 +7,19 @@ const date = Variable('', {
     poll: [1000, 'date "+%H:%M, %b %e, %Y"'],
 })
 
-const Clock = () => {
+const Clock = (monitor = 0) => {
+    const calendar_name = `calendarPopup${monitor}`
+    const calendar_popup = CalendarPopup(calendar_name)
+
+    App.addWindow(calendar_popup);
+    // Window is initially closed
+    App.closeWindow(calendar_name);
+    
     return Widget.Button({
         child: Widget.Label({
             label: date.bind(),
         }),
-        onClicked: () => CalendarPopup(),
+        onClicked: () => App.toggleWindow(calendar_name),
     })
 }
 
