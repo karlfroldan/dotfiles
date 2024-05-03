@@ -1,7 +1,9 @@
 const hyprland = await Service.import('hyprland')
 const battery = await Service.import('battery')
 const network = await Service.import('network')
+const audio = await Service.import('audio')
 import { CalendarPopup } from './calendar_popup.js'
+import { PowerButton } from './power.js'
 
 const date = Variable('', {
     poll: [1000, 'date "+%H:%M, %b %e, %Y"'],
@@ -20,6 +22,58 @@ const Clock = (monitor = 0) => {
             label: date.bind(),
         }),
         onClicked: () => App.toggleWindow(calendar_name),
+    })
+}
+
+
+/// The RevealerButton will have a button and an icon that may change given the
+/// status of the sliding bar.
+const RevealerButton = (
+    slider_fn, // function that will execute onChange of slider
+    slider_value, // value of the slider.
+    icon = 'emblem-default-symbolic',
+    icon_hook = () => {},
+) => {
+    const is_revealed = Variable(false)
+
+    const button_icon = Widget.Icon({icon})
+    // Clicking the button will disable the reveal of the slider.
+    const button = Widget.Button({
+        child: button_icon,
+        onHover: () => {
+            is_revealed.value = true
+        },
+        onClicked: () => {
+            is_revealed.value = !is_revealed.value
+        },
+    })
+
+    // This is the child of the revealer
+    const slider = Widget.Slider({
+        vertical: false,
+        draw_value: false,
+        hexpand: true,
+        value: slider_value,
+        min: 0,
+        max: 1,
+        onChange: slider_fn,
+    })
+
+    const revealer = Widget.Revealer({
+        revealChild: is_revealed.bind(),
+        transitionDuration: 1000,
+        transition: 'slide_right',
+        child: slider,
+    })
+
+    return Widget.Box({
+        spacing: 2,
+        vertical: false,
+        css: 'min-width: 180px',
+        children: [
+            button,
+            revealer,
+        ],
     })
 }
 
@@ -63,6 +117,16 @@ const BatteryProgress = () => {
     })
 }
 
+const AudioBar = () => {
+    return RevealerButton(
+        ({value}) => {
+            audio['speaker'].volume = value
+        },
+        audio['speaker'].bind('volume'),
+        'audio-speakers-symbolic'
+    )
+}
+
 const Left = () => {
     return Widget.Label('Left Widget')
 }
@@ -87,6 +151,8 @@ const Right = () => {
         children: [
             BatteryProgress(),
             NetworkCenter(),
+            AudioBar(),
+            PowerButton(),
         ],
     })
 }

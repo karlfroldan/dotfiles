@@ -1,0 +1,22 @@
+#!/bin/sh
+
+WALLPAPER_DIR=$HOME/.config/hypr/Wallpapers
+WALLPAPER_ARR=( $(ls $WALLPAPER_DIR) )
+WALLPAPER_TOTAL=${#WALLPAPER_ARR[@]}
+
+CURRENT_WALLPAPER_FILE=/tmp/my.hypr.wallpaper
+
+main_monitor=eDP-1
+
+if [[ -f $CURRENT_WALLPAPER_FILE ]]; then
+    echo "Not yet implemented"
+    echo "This should be changing the wallpaper and unloading the current one"
+fi
+
+# Choose random wallpaper
+chosen_wallpaper_idx=$((RANDOM % WALLPAPER_TOTAL))
+chosen_wallpaper=${WALLPAPER_ARR[$chosen_wallpaper_idx]}
+echo "$chosen_wallpaper"
+
+hyprctl hyprpaper preload "$WALLPAPER_DIR/$chosen_wallpaper"
+hyprctl hyprpaper wallpaper "$main_monitor,$WALLPAPER_DIR/$chosen_wallpaper"

@@ -16,6 +16,9 @@ My Operating System of choice is [Gentoo](https://gentoo.org).
 Things to do:
 
 [ ] Remove drun as App Launcher and replace with emacs
+
 [ ] Modify my [emacs config](https://github.com/karlfroldan/dot-emacs) to fully support running as a daemon
+
 [ ] Finish eww configuration
+
 [ ] Finish Hyprland configuration
