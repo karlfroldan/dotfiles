@@ -1,0 +1,28 @@
+#!/bin/bash
+
+timestamp=$(date +'%b-%d-%Y_%H%M%S')
+filename="$HOME/Pictures/Screenshots/Screenshot-${timestamp}.png"
+compression_level=2
+file_type=png
+
+send_notification()
+{
+    local filename=$1
+    notify-send -c Screenshot -a grim \
+                "Screenshot" \
+                "Screenshot saved to $filename"
+}
+
+if [[ ! -d "$HOME/Pictures/Screenshots" ]]; then
+    mkdir -p $HOME/Pictures/Screenshots
+fi
+
+# If no argument, then take a screenshot of the entire screen
+if [[ -z "$1" ]]; then
+    grim -t "${file_type}" -l ${compression_level} "${filename}"
+    send_notification "$filename"
+    exit 0
+fi
+
+grim -t ${file_type} -l ${compression_level} -g "$(slurp)" "${filename}"
+send_notification "$filename"
