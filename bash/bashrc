@@ -1,2 +1,4 @@
 alias icat="kitty +kitten icat"
-alias e='emacsclient -r -n'
+alias em='emacsclient -n'
+alias er='em --eval'
+alias e='em -r'
