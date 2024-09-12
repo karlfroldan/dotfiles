@@ -1,5 +1,5 @@
 # -*- mode: shell-script -*-
-source $HOME/.config/bash/functions.sh
+source $HOME/.config/dotfiles/shell/functions.sh
 
 alias icat="kitty +kitten icat"
 alias s="kitty +kitten ssh"
